@@ -1,0 +1,250 @@
+<html>
+<head>
+  <!-- Google Analytics   -->
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-179008914-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-179008914-1');
+  </script>
+
+  <title> GSSR - A Global Storm Surge Database </title>
+  <!-- adding favicon -->
+  <link rel="icon" type="image/png" href="https://img.icons8.com/color/32/000000/tsunami.png">
+  <!-- mt: new version of bootstrap cdn -->
+  
+  <script src="./leaflet/leaflet.js"></script>
+  <script src="jquery-2.1.1.min.js"></script> 
+
+  <!-- adding leaflet search box -->
+  <!-- <script src="https://labs.easyblog.it/maps/leaflet-search/src/leaflet-search.js"></script>
+  <link rel="stylesheet" type="text/css" href="leaflet-search.css"> -->
+
+  <!-- adding leaflet full screen option -->
+  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+
+
+  <!-- css -->
+  <link rel="stylesheet" href="./leaflet/leaflet.css" />
+  <link rel="stylesheet" type="text/css" href="webmap.css">
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" 
+  integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
+
+  <!-- figshare icon -->
+  <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+
+</head>
+<body>
+ 
+  <!-- adding responsive sidebar -->
+  <nav class="main-menu">
+    <ul>
+      <li>
+        <a href="#">
+          <i class="fas fa-home"></i>
+          <span class="nav-text" >Home</span>
+        </a>
+      </li>
+      
+      <li>
+        <!-- link to GSSR-DB -->
+        <a href="https://safe-scrubland-38484.herokuapp.com/home" target="_blank">
+          <i class="fas fa-database fa-2x"></i>
+          <span class="nav-text" >GSSR-DB</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="/pages/validation.html">
+          <i class="fas fa-laptop fa-2x"></i>
+          <span class="nav-text">Validation</span>
+        </a>
+      </li>
+
+      <!-- changepoint analysis -->
+      <li>
+        <a href="http://gssr.info/changepoint">
+          <i class="fas fa-chart-bar fa-2x"></i>
+          <span class="nav-text">Changepoint Analysis</span>
+        </a>
+      </li>
+
+      <!-- trend analysis -->
+      <li>
+        <a href="http://gssr.info/trends">
+          <i class="fas fa-chart-line fa-2x"></i>
+          <span class="nav-text">Trend Analysis</span>
+        </a>
+      </li>
+
+
+      <li>
+        <a href="https://github.com/moinabyssinia/webmap" target="_blank">
+          <i class="fab fa-github fa-2x"></i>
+          <span class="nav-text" >Github Repo</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="https://figshare.com/s/211ca5c6d110ead77211" target="_blank">
+          <span class="iconify" data-icon="simple-icons:figshare" data-inline="false"></span>
+          <span class="nav-text" >figshare</span>
+        </a>
+      </li>
+
+      <div class="scroll-down" onClick = "scrollToBottom()">
+        <li>
+          <a href="#bottom">
+            <i class="fas fa-address-book" ></i>
+            <span class="nav-text" id="btn"> Contact Us</span>
+          </a>
+        </li>
+
+      </div>
+
+    </ul>
+  </nav>
+
+  <!-- adding navbar -->
+  <div class="starter">
+    <div class="title">
+      <h1>A Database of Global Storm Surge Reconstructions (GSSR) </h1>
+    </div>
+  </div>
+
+  <!-- adding progress bar -->
+  <div id="_progress"></div>
+
+  <div id="map"></div>
+
+
+  <div class="info">
+    <h3 id="background"><strong>1. Background</strong></h3>
+
+    <p>Understanding how the storm surge climate has changed in the past is important to predict the future. Unfortunately, 
+      a major hurdle in the study of storm surges is that observational records from tide gauges are often short, making it 
+      difficult to assess long-term trends and decadal variability as well as performing robust statistical analyses. 
+      For example, as a rule of thumb in extreme value analysis, extrapolation should be limited to return periods not longer 
+      than four times the available record length. This means in order to extrapolate to a 100-year storm surge event, at least 
+      25 years of data are needed. However, 45% of the tide gauges in the <a href="https://www.gesla.org/" target="_blank">GESLA-2</a>
+      database have less than 25 years of data, which clearly limits our ability to derive robust statistics and assess long-term changes.</p>
+
+      <h3><strong>2. What we provide</strong></h3> 
+
+      <p>The Global Storm Surge Reconstruction (GSSR) database includes daily maximum surge values for the past at 882 tide gauges 
+        distributed along the global coastline. The data-driven models employed for the surge reconstruction were developed by 
+        <a href="https://www.frontiersin.org/articles/10.3389/fmars.2020.00260/full" target="_blank">Tadesse et al. (2020).</a> 
+        We use five different atmospheric reanalysis products with different spatial and temporal resolution to produce 
+        surge information for the periods covered by the different reanalyses. The web-map above allows the user to download daily maximum 
+        surge values for individual tide gauges and reanalysis products. The reanalysis that leads to the best validation results is 
+        marked with "best reconstruction" (note that in some locations data is not available for all reanalyses as there is no overlap in the periods covered 
+        by the tide gauges and the reanalysis). The full surge reconstruction for each reanalysis (comprised of 882 compressed individual .csv files 
+        for the different tide gauges) can be downloaded from the following links:
+
+        <ul>
+          <li><a href="https://downgit.github.io/#/home?url=https://github.com/moinabyssinia/webmap/tree/gh-pages/20cr" target="_blank">20-CR Surge Reconstruction [1836 - 2015]</a></li>
+          <li><a href="https://downgit.github.io/#/home?url=https://github.com/moinabyssinia/webmap/tree/gh-pages/era20c" target="_blank">ERA-20C Surge Reconstruction [1900 - 2010]</a></li>
+          <li><a href="https://downgit.github.io/#/home?url=https://github.com/moinabyssinia/webmap/tree/gh-pages/eraint" target="_blank">ERA-Interim Surge Reconstruction [1979 - 2019]</a></li>
+          <li><a href="https://downgit.github.io/#/home?url=https://github.com/moinabyssinia/webmap/tree/gh-pages/merra" target="_blank">MERAA-2 Reconstruction [1980 - 2019]</a></li>
+          <li><a href="https://downgit.github.io/#/home?url=https://github.com/moinabyssinia/webmap/tree/gh-pages/erafive" target="_blank">ERA-Five Reconstruction [1979 - 2019]</a></li>
+        </ul>  
+      </p>
+
+      <h3 id="dataset"><strong>3. Predictor and Predictand Datasets</strong></h3> 
+      <ul>
+        <li><a href="https://www.ecmwf.int/en/forecasts/datasets/reanalysis-datasets/era-interim" target="_blank">ERA-Interim global atmospheric reanalysis</a>,</li>
+        <li><a href="https://www.ecmwf.int/en/forecasts/datasets/reanalysis-datasets/era-20c" target="_blank">ERA-20C global atmospheric reanalysis</a>,</li>
+        <li><a href="https://www.esrl.noaa.gov/psd/data/gridded/data.20thC_ReanV3.monolevel.html" target="_blank">20CRV3 (NOAA-CIRES) atmospheric reanalysis</a>,</li>
+        <li><a href="https://goldsmr4.gesdisc.eosdis.nasa.gov/data/MERRA2/M2I1NXINT.5.12.4/" target="_blank">MERRA-2 atmospheric reanalysis</a>,</li>
+        <li><a href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels?tab=overview" target="_blank">ERA-Five atmospheric reanalysis</a>,</li>
+        <li><a href="https://www.gesla.org/" target="_blank">Global Extreme Sea Level Analysis - Sea-level Data</a></li>
+      </ul>
+
+      <h3><strong>4. Methodology</strong></h3> 
+
+      <p>The data-driven models used to develop GSSR are described in detail in <a href="https://www.frontiersin.org/articles/10.3389/fmars.2020.00260/full" target="_blank">
+        Tadesse et al. (2020).</a></p>
+      <img class="fig-schematic" src="images/figure1.png" alt="a schematic diagram of the methodology used">
+
+
+      <h3><strong>5. Model Validation</strong></h3> 
+      <p>Validation results of the data-driven models for the surge reconstructions derived with the five different reanalysis products can be downloaded through 
+        the following links (note that the validation was carried out for the common period from 1980 to 2010 where all reanalyses have data): 
+        <ul>
+          <li><a href="./metadata/validation/twcrValidation.7z" target="_blank">20-CR Validation</a></li>
+          <li><a href="./metadata/validation/era20cValidation.7z" target="_blank">ERA-20C Validation</a></li>
+          <li><a href="./metadata/validation/eraintValidation.7z" target="_blank">ERA-Interim Validation</a></li>
+          <li><a href="./metadata/validation/merraValidation.7z" target="_blank">MERAA-2 Validation</a></li>
+          <li><a href="./metadata/validation/erafiveValidation.7z" target="_blank">ERA-Five Validation</a></li>
+        </ul>  
+      </p>
+
+      
+      <h3><strong>6. Acknowledgement</strong></h3> 
+
+      <p>The research that resulted in the development of the GSSR database was funded by the National Aeronautics 
+        and Space Administration (NASA) under the New (Early Career) Investigator Program in Earth Science (
+          grant number: 80NSSC18K0743)</p>
+
+      <p>Reports, articles, or manuscripts that make use of GSSR data shall include an acknowledgement to this web site and refer to the paper by 
+        <a href="https://rdcu.be/cjV3v" target="_blank">Tadesse et al. (2021)</a>. We would be 
+        grateful to be notified of such papers and, if possible, sent copies of them. The following citation shall be used to refer to the paper:
+      </p>
+
+      <p><strong>Article: </strong> This database accompanies a Scientific Data paper which can be accessed <a href="https://rdcu.be/cjV3v" target="_blank">here</a> </p>
+      <p><strong>Citation: </strong> 
+          Tadesse, M.G., Wahl, T. A database of global storm surge reconstructions. <i>Sci Data</i> 
+          <strong>8,</strong> 125 (2021). <a href="https://doi.org/10.1038/s41597-021-00906-x" target="_blank">https://doi.org/10.1038/s41597-021-00906-x</a>
+      </p>
+
+      <!-- add contact form -->
+      <div id="contact">
+        <div id="contact-form">
+          
+          <h3><strong><p>7. Questions about the Dataset?</p></strong></h3> 
+
+          <form action="https://formspree.io/f/mleognpe" method="POST">
+            <input type="hidden" name="_subject" value="Contact request from personal website" />
+            <p>
+            <input type="email" name="_replyto" placeholder="Your email" required>
+            <p>
+            <textarea name="message" placeholder="Type your message" required></textarea>
+            <p>
+            <button type="submit">Send</button>
+          </form>
+        </div>
+      </div>
+
+  </div>
+
+  <!-- sticky to-to-top button -->
+  <a class="top-link hide" href="" id="js-top">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6"><path d="M12 6H0l6-6z"/></svg>
+  </a>
+
+
+  <footer> 
+    <div class="license">
+      <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+        <img alt="Creative Commons License" style="border-width:0" 
+          src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+            <br /> <br />This work is licensed under a <a rel="license" 
+              href="http://creativecommons.org/licenses/by/4.0/">
+                Creative Commons Attribution 4.0 International License</a>.
+    </div>
+
+    <p>Website by <a href="https://www.linkedin.com/in/michaeltadesse/" target="_blank">Michael Getachew Tadesse</a></p>
+
+    <small>&copy; <span class="currentYear"></span> GSSR</small> 
+  </footer> 
+
+  <!-- javascript file -->
+  <script type="text/javascript" src="webmap2Maps.js"></script>
+  <script type="text/javascript" src="scripts.js"></script>
+</body>
+</html>
